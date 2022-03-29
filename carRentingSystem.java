@@ -7,7 +7,7 @@ public class carRentingSystem
 {
     public static void main(String args[])
     {   
-        String  dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/db0";
+        String  dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/db0?allowMutiQueries=true";
         String dbUsername="Group0";
         String dbPassword="group0gp";
         Connection con=null;
