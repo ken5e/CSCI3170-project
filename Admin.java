@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-import java.lang.IndexOutOfBoundsException;
 import java.lang.Integer;
 
 
@@ -30,11 +29,7 @@ public class Admin {
             System.out.println(e);
         }
 
-        Admin.creatTables(con);
-        System.out.println("Creat tables successful!");
-        Admin.insertAll(con);
-        Admin.showNumRecord(con);
-        System.out.println("Everything looks good!");
+        Admin.adminMainMenu(con);
     }
 
     public static Boolean executeSQLfile(Connection con, String str_path) {
@@ -81,6 +76,7 @@ public class Admin {
         List<String> create_list =  Arrays.asList("user_category", "user", "car_category", "car", "copy", "rent", "produce");
         List<Boolean> arr = new ArrayList<Boolean>();
         Boolean one_result = false;
+
         try {
         exist_list = Admin.existTables(con);
         } catch (SQLException e) {
@@ -135,10 +131,11 @@ public class Admin {
     }
 
 
-    public static Boolean insertUserCat(Connection con) throws SQLException{
+    public static Boolean insertUserCat(Connection con, String path_str) throws SQLException{
         try {
             // Open the file
-            File file = new File("./data/user_category.txt");    //creates a new file instance  
+            path_str = "./" + path_str + "/user_category.txt";
+            File file = new File(path_str);    //creates a new file instance  
             FileReader fr = new FileReader(file);   //reads the file  
             BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
             String strLine;
@@ -153,9 +150,9 @@ public class Admin {
                 //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
                     i++;
-                    arrOfStr = strLine.split("\t");
+                    arrOfStr = strLine.split("\t", 0);
                     if (arrOfStr.length < 3) {
-                        System.out.println("Error in parsing line " + i.toString());
+                        System.out.println("Error in parsing line " + i.toString() + "of " + path_str);
                         return false;
                     }
                     
@@ -182,10 +179,11 @@ public class Admin {
         }
     }
 
-    public static Boolean insertCarCat(Connection con) throws SQLException{
+    public static Boolean insertCarCat(Connection con, String path_str) throws SQLException{
         try {
             // Open the file
-            File file = new File("./data/car_category.txt");    //creates a new file instance  
+            path_str = "./" + path_str + "/car_category.txt";
+            File file = new File(path_str);    //creates a new file instance  
             FileReader fr = new FileReader(file);   //reads the file  
             BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
             String strLine;
@@ -200,9 +198,9 @@ public class Admin {
                 //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
                     i++;
-                    arrOfStr = strLine.split("\t");
+                    arrOfStr = strLine.split("\t", 0);
                     if (arrOfStr.length < 2) {
-                        System.out.println("Error in parsing line " + i.toString());
+                        System.out.println("Error in parsing line " + i.toString() + " of " + path_str);
                         return false;
                     }
                     pstmt.setInt(1, Integer.parseInt(arrOfStr[0]));
@@ -227,10 +225,11 @@ public class Admin {
         }
     }
 
-    public static Boolean insertCar(Connection con) throws SQLException{
+    public static Boolean insertCar(Connection con, String path_str) throws SQLException{
         try {
             // Open the file
-            File file = new File("./data/car.txt");    //creates a new file instance  
+            path_str = "./" + path_str + "/car.txt";
+            File file = new File(path_str); 
             FileReader fr = new FileReader(file);   //reads the file  
             BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
             String strLine;
@@ -248,10 +247,10 @@ public class Admin {
             try {
                 //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
-                    arrOfStr = strLine.split("\t");
+                    arrOfStr = strLine.split("\t", 0);
                     i++;
                     if (arrOfStr.length < 7) {
-                        System.out.println("Error in parsing line " + i.toString());
+                        System.out.println("Error in parsing line " + i.toString() + " of " + path_str);
                         return false;
                     }
                     
@@ -288,11 +287,12 @@ public class Admin {
         }
     }
 
-    public static Boolean insertUser(Connection con) throws SQLException{
+    public static Boolean insertUser(Connection con, String path_str) throws SQLException{
         try {
             // Open the file
-            File file = new File("./data/user.txt");    //creates a new file instance  
-            FileReader fr = new FileReader(file);   //reads the file  
+            path_str = "./" + path_str + "/user.txt";
+            File file = new File(path_str);    
+            FileReader fr = new FileReader(file); //reads the file 
             BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
             String strLine;
             String[] arrOfStr;
@@ -305,10 +305,10 @@ public class Admin {
             try {
                 //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
-                    arrOfStr = strLine.split("\t");
+                    arrOfStr = strLine.split("\t", 0);
                     i++;
                     if (arrOfStr.length < 5) {
-                        System.out.println("Error in parsing line " + i.toString());
+                        System.out.println("Error in parsing line " + i.toString() + " of " + path_str);
                         return false;
                     }
                     
@@ -338,11 +338,12 @@ public class Admin {
     }
 
 
-    public static Boolean insertRent(Connection con) throws SQLException{
+    public static Boolean insertRent(Connection con, String path_str) throws SQLException{
         try {
             // Open the file
-            File file = new File("./data/rent.txt");    //creates a new file instance  
-            FileReader fr = new FileReader(file);   //reads the file  
+            path_str = "./" + path_str + "/rent.txt";
+            File file = new File(path_str);    //reads the file
+            FileReader fr = new FileReader(file); //reads the file  
             BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
             String strLine;
             String[] arrOfStr;
@@ -355,10 +356,10 @@ public class Admin {
             try {
                 //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
-                    arrOfStr = strLine.split("\t");
+                    arrOfStr = strLine.split("\t", 0);
                     i++;
                     if (arrOfStr.length < 5) {
-                        System.out.println("Error in parsing line " + i.toString());
+                        System.out.println("Error in parsing line " + i.toString()  + " of " + path_str);
                         return false;
                     }
                     
@@ -387,14 +388,14 @@ public class Admin {
         }
     }
 
-    public static Boolean insertAll(Connection con) throws SQLException{
+    public static Boolean insertAll(Connection con, String path_str) {
         Boolean[] arr = new Boolean[5];
         try {
-            arr[0] = Admin.insertUserCat(con);
-            arr[1] = Admin.insertCarCat(con);
-            arr[2] = Admin.insertUser(con);
-            arr[3] = Admin.insertCar(con);
-            arr[4] = Admin.insertRent(con);
+            arr[0] = Admin.insertUserCat(con, path_str);
+            arr[1] = Admin.insertCarCat(con, path_str);
+            arr[2] = Admin.insertUser(con, path_str);
+            arr[3] = Admin.insertCar(con, path_str);
+            arr[4] = Admin.insertRent(con, path_str);
             for(Boolean b : arr) if(!b) return false;
         }catch (SQLException e) {
             return false;
@@ -402,7 +403,7 @@ public class Admin {
         return true;
     }
 
-    public static Boolean showNumRecord(Connection con) throws SQLException {
+    public static Boolean showNumRecord(Connection con) {
         System.out.println("Number of records in each table:");
         Boolean output = true;
 
@@ -410,8 +411,8 @@ public class Admin {
         for (String i: arr) {
             String psql = "SELECT COUNT(*) FROM ";
             psql = psql + i;
-            PreparedStatement pstmt = con.prepareStatement(psql);
             try {
+                PreparedStatement pstmt = con.prepareStatement(psql);
                 ResultSet rs = pstmt.executeQuery();
                 rs.next();
                 System.out.println(i + ": " + rs.getString(1));
@@ -421,6 +422,65 @@ public class Admin {
             }
         }
         return output;
+    }
+
+    public static void printMenu()
+    {
+        System.out.println("-----Operations for administrator menu-----");
+        System.out.print("What kind of operatoin would you like to perform?\n1. Create all tables\n2. Delete all tables\n3. Load from datafile\n4. Show number of records in each table\n5. Return to the main menu\n");
+        System.out.print("Enter Your Choice: ");
+    }
+
+    public static void adminMainMenu(Connection con)
+    {
+        while(true)
+        {
+            printMenu();
+            Scanner input= new Scanner(System.in);
+            int num = input.nextInt();
+            Boolean output = true;
+
+            switch(num)
+            {
+                case 1 :
+                    System.out.print("Processing...");
+                    output = Admin.creatTables(con);
+                    if (output == true) {
+                        System.out.println("Done. Datebase is intialized.");
+                    } else {
+                         System.out.println("Database has not been intialized.");
+                    }
+                    break;
+                case 2 :
+                    System.out.print("Processing...");
+                    output = Admin.deleteTables(con);
+                    if (output == true) {
+                        System.out.println("Done. Datebase is removed.");
+                    } else {
+                         System.out.println("Database has not been removed.");
+                    }                    
+                    break;
+                case 3 :
+                    System.out.println("Type in the Source Data Folder Path: ");
+                    Scanner input2 = new Scanner(System.in);
+                    String path_str = input2.next();
+                    output = Admin.insertAll(con, path_str);
+                    if (output == true) {
+                        System.out.println("Done. Data is inputted to the database");
+                    } else {
+                         System.out.println("Some or all data has not been input.");
+                    }
+                    break;
+                case 4 :
+                    output = Admin.showNumRecord(con);
+                    break;
+                case 5 :
+                    return;
+                default : 
+                    System.out.println("Please input the integer within 1 to 5");
+                    break;
+            }
+        }
     }
 }
 
