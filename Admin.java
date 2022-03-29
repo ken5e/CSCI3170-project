@@ -132,20 +132,17 @@ public class Admin {
 
 
     public static Boolean insertUserCat(Connection con, String path_str) throws SQLException{
-        try {
-            // Open the file
-            path_str = "./" + path_str + "/user_category.txt";
-            File file = new File(path_str);    //creates a new file instance  
-            FileReader fr = new FileReader(file);   //reads the file  
-            BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
-            String strLine;
-            String[] arrOfStr;
-            String psql = "INSERT INTO user_category VALUES(?, ?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(psql);
-            Integer i = 0;
-            Boolean output = true;
+        BufferedReader br;
+        String strLine;
+        String[] arrOfStr;
+        String psql = "INSERT INTO user_category VALUES(?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(psql);
+        Integer i = 0;
+        Boolean output = true;
+        path_str = "./" + path_str + "/user_category.txt"; 
+        br = Admin.readTxtLine(path_str);
 
-
+        if (br != null) {
             try {
                 //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
@@ -172,28 +169,24 @@ public class Admin {
                 System.out.println(e);
             }
             return output;
-
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
+        } else {
             return false;
         }
     }
 
     public static Boolean insertCarCat(Connection con, String path_str) throws SQLException{
-        try {
-            // Open the file
-            path_str = "./" + path_str + "/car_category.txt";
-            File file = new File(path_str);    //creates a new file instance  
-            FileReader fr = new FileReader(file);   //reads the file  
-            BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
-            String strLine;
-            String[] arrOfStr;
-            String psql = "INSERT INTO car_category(ccid, ccname) VALUES(?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(psql);
-            Integer i = 0;
-            Boolean output = true;
+        BufferedReader br;
+        String strLine;
+        String[] arrOfStr;
+        String psql = "INSERT INTO car_category(ccid, ccname) VALUES(?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(psql);
+        Integer i = 0;
+        Boolean output = true;
 
+        path_str = "./" + path_str + "/car_category.txt";
+        br = Admin.readTxtLine(path_str);
 
+        if (br != null) {
             try {
                 //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
@@ -214,38 +207,32 @@ public class Admin {
                     }
                 }
             }
-             catch (IOException e) {
+            catch (IOException e) {
                 System.out.println(e);
             }
-            return output;
-
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-            return false;
         }
+        return output;
     }
 
     public static Boolean insertCar(Connection con, String path_str) throws SQLException{
-        try {
-            // Open the file
-            path_str = "./" + path_str + "/car.txt";
-            File file = new File(path_str); 
-            FileReader fr = new FileReader(file);   //reads the file  
-            BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
-            String strLine;
-            String[] arrOfStr;
-            String psql = "INSERT INTO car(callnum, name, manufacture, time_rent, ccid) VALUES(?, ?, ?, ?, ?)";
-            String psql2 = "INSERT INTO copy(callnum, copynum) VALUES(?, ?)";
-            String psql3 = "INSERT INTO produce(cname, callnum) VALUES(?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(psql);
-            PreparedStatement pstmt2 = con.prepareStatement(psql2);
-            PreparedStatement pstmt3 = con.prepareStatement(psql3);
-            Integer i = 0;
-            Boolean output = true;
+        BufferedReader br;
+        String strLine;
+        String[] arrOfStr;
+        String psql = "INSERT INTO car(callnum, name, manufacture, time_rent, ccid) VALUES(?, ?, ?, ?, ?)";
+        String psql2 = "INSERT INTO copy(callnum, copynum) VALUES(?, ?)";
+        String psql3 = "INSERT INTO produce(cname, callnum) VALUES(?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(psql);
+        PreparedStatement pstmt2 = con.prepareStatement(psql2);
+        PreparedStatement pstmt3 = con.prepareStatement(psql3);
+        Integer i = 0;
+        Boolean output = true;
 
+        path_str = "./" + path_str + "/car.txt";
+        br = Admin.readTxtLine(path_str);
 
+        if (br != null) {
+            //Read File Line By Line
             try {
-                //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
                     arrOfStr = strLine.split("\t", 0);
                     i++;
@@ -275,35 +262,30 @@ public class Admin {
                         output = false;
                     }
                 }
-            }
-             catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println(e);
             }
-            return output;
-
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
+        } else {
             return false;
         }
+        return output;
     }
 
+
     public static Boolean insertUser(Connection con, String path_str) throws SQLException{
-        try {
-            // Open the file
-            path_str = "./" + path_str + "/user.txt";
-            File file = new File(path_str);    
-            FileReader fr = new FileReader(file); //reads the file 
-            BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
-            String strLine;
-            String[] arrOfStr;
-            String psql = "INSERT INTO user(uid, name, age, occupation, ucid) VALUES(?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(psql);
-            Integer i = 0;
-            Boolean output = true;
+        BufferedReader br;  
+        String strLine;
+        String[] arrOfStr;
+        String psql = "INSERT INTO user(uid, name, age, occupation, ucid) VALUES(?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(psql);
+        Integer i = 0;
+        Boolean output = true;
 
+        path_str = "./" + path_str + "/user.txt";
+        br = Admin.readTxtLine(path_str);
 
+        if (br != null) {
             try {
-                //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
                     arrOfStr = strLine.split("\t", 0);
                     i++;
@@ -326,35 +308,31 @@ public class Admin {
                     }
                 }
             }
-             catch (IOException e) {
+            catch (IOException e) {
                 System.out.println(e);
             }
-            return output;
-
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
+        } else {
             return false;
         }
+        return output;
     }
+    
 
 
     public static Boolean insertRent(Connection con, String path_str) throws SQLException{
-        try {
-            // Open the file
-            path_str = "./" + path_str + "/rent.txt";
-            File file = new File(path_str);    //reads the file
-            FileReader fr = new FileReader(file); //reads the file  
-            BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream  
-            String strLine;
-            String[] arrOfStr;
-            String psql = "INSERT INTO rent VALUES(?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(psql);
-            Integer i = 0;
-            Boolean output = true;
+        String strLine;
+        String[] arrOfStr;
+        String psql = "INSERT INTO rent VALUES(?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(psql);
+        Integer i = 0;
+        Boolean output = true;
+        BufferedReader br;
 
+        path_str = "./" + path_str + "/rent.txt";
+        br = Admin.readTxtLine(path_str);
 
+        if (br != null) {
             try {
-                //Read File Line By Line
                 while ((strLine = br.readLine()) != null) {
                     arrOfStr = strLine.split("\t", 0);
                     i++;
@@ -376,15 +354,24 @@ public class Admin {
                         output = false;
                     }
                 }
-            }
-             catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println(e);
             }
-            return output;
+        } else{
+            return false;
+        }
+        return output;
+    }
 
+    public static BufferedReader readTxtLine(String path_str) {
+        try {
+            File file = new File(path_str);    //reads the file
+            FileReader fr = new FileReader(file); //reads the file  
+            BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream 
+            return br; 
         } catch (FileNotFoundException e) {
             System.out.println(e);
-            return false;
+            return null;
         }
     }
 
