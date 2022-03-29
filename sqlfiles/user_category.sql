@@ -2,7 +2,7 @@ CREATE TABLE user_category(
     ucid INT NOT NULL,
     max INT NOT NULL,
     period INT NOT NULL,
-    CONSTRAINT user_category_key PRIMARY KEY (ucid)
+    PRIMARY KEY (ucid)
 );
 
 CREATE TRIGGER user_cat_insert_domain BEFORE INSERT ON user_category
