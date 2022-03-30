@@ -16,6 +16,10 @@ public class Manager{// extends MainMenu{
     final String dbPassword="group0gp";
     private Connection conn;
 
+    public Manager() {
+        ;
+    }
+
     public void connect() throws ClassNotFoundException,SQLException
     {
         try{
