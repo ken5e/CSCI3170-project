@@ -35,7 +35,7 @@ public class Manager{// extends MainMenu{
     // --------------------------------------------End---------------------------------------------------
     
 
-    public void printAllUnreturnCar(String startDate, String endDate)
+    public void printAllUnreturnCar(String startDate, String endDate,Connection conn)
     {
         try{
             Date startDate_d = new SimpleDateFormat("dd/mm/yyyy").parse(startDate);
@@ -46,12 +46,12 @@ public class Manager{// extends MainMenu{
             java.sql.Date startDate_sql = java.sql.Date.valueOf(startDate_string);
             java.sql.Date endDate_sql = java.sql.Date.valueOf(endDate_string);
 
-            String sql= "SELECT uid,callnum,copynum,ckeckout FROM rent WHERE checkout BETWEEN ? AND ?";
+            String sql= "SELECT uid,callnum,copynum,checkout FROM rent WHERE checkout BETWEEN ? AND ?";
             PreparedStatement pstmt=conn.prepareStatement(sql);
             pstmt.setDate(1,startDate_sql);
             pstmt.setDate(2,endDate_sql);
         
-            ResultSet resultSet =pstmt.executeQuery();
+            ResultSet resultSet =pstmt.executeQuery(sql);
             if(!pstmt.executeQuery().next())
             {
                 System.out.println("No records found.");
@@ -72,6 +72,7 @@ public class Manager{// extends MainMenu{
             }
         }catch (SQLException e )
         {
+            System.out.println(e);
             System.out.println("[Error] Failed to list the records.");
         }
         catch (ParseException e1)
@@ -80,7 +81,7 @@ public class Manager{// extends MainMenu{
         }
     }
 
-    public void returnCar(String userID, String callNum, int copyNum)
+    public void returnCar(String userID, String callNum, int copyNum,Connection conn)
     {
         try{
             // check whether the user is exist or not
@@ -102,7 +103,7 @@ public class Manager{// extends MainMenu{
                 }
 
             // check whether this car is rented by user
-                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND return=NULL");
+                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND 'return' IS NULL");
                 pstmt.setString(1,userID);
                 pstmt.setString(2,callNum);
                 pstmt.setInt(3,copyNum);
@@ -115,7 +116,7 @@ public class Manager{// extends MainMenu{
             // update rent record
                 java.util.Date myDate = new java.util.Date();
                 java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-                pstmt=conn.prepareStatement("UPDATE rent SET return=? WHERE uid=? AND callnum=? AND copynum=? AND return=null");
+                pstmt=conn.prepareStatement("UPDATE rent SET return=? WHERE uid=? AND callnum=? AND copynum=? AND 'return' IS NULL");
                 pstmt.setDate(1,sqlDate);
                 pstmt.setString(2,userID);
                 pstmt.setString(3,callNum);
@@ -128,12 +129,12 @@ public class Manager{// extends MainMenu{
         }
     }
     
-    public void rentCar(String userID, String callNum, int copyNum)
+    public void rentCar(String userID, String callNum, int copyNum,Connection conn)
     {
         try{
 
             // check whether the user is exist or not
-                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM User WHERE uid=?");
+                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE uid=?");
                 pstmt.setString(1,userID);
                 if(!pstmt.executeQuery().next())
                 {
@@ -144,14 +145,14 @@ public class Manager{// extends MainMenu{
             // check whether the user has rented max. num of car
                 int max_num=0;
                 int userRentedNo=0;
-                pstmt=conn.prepareStatement("SELECT C.max FROM uesr U natural join user_category C WHERE uid=?");
+                pstmt=conn.prepareStatement("SELECT C.max FROM user U natural join user_category C WHERE uid=?");
                 pstmt.setString(1,userID);
                 ResultSet resultSet=pstmt.executeQuery();
                 if (resultSet.next())
                 {
                     max_num=resultSet.getInt(1);
                 }
-                pstmt=conn.prepareStatement("SELECT count(*) FROM rent WHERE uid=?");
+                pstmt=conn.prepareStatement("SELECT count(*) FROM rent WHERE uid=? AND 'return' IS NULL");
                 pstmt.setString(1,userID);
                 resultSet=pstmt.executeQuery();
                 if(resultSet.next())
@@ -174,7 +175,7 @@ public class Manager{// extends MainMenu{
                 }
             
             // check whether the car is rented or not
-                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND return=NULL");
+                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND 'return' IS NULL");
                 pstmt.setString(1,userID);
                 pstmt.setString(2,callNum);
                 pstmt.setInt(3,copyNum);
@@ -187,7 +188,7 @@ public class Manager{// extends MainMenu{
             // rent car procedure
                 Date myDate= new java.util.Date();
                 java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-                pstmt=conn.prepareStatement("INSERT INTO rent VALUES (?,?,?,?,null)");
+                pstmt=conn.prepareStatement("INSERT INTO rent VALUES (?,?,?,?,NULL)");
                 pstmt.setString(1,userID);
                 pstmt.setString(2,callNum);
                 pstmt.setInt(3,copyNum);
@@ -197,21 +198,22 @@ public class Manager{// extends MainMenu{
             
         }catch(SQLException e)
         {
+            System.out.println(e);
             System.out.println("Car renting performed unsuccessfully.");
         }
     }
 
-    public void unreturnCar_input()
+    public void unreturnCar_input(Connection conn)
     {
         Scanner input = new Scanner(System.in);
         System.out.print("Type in the starting date [dd/mm/yyyy]: ");
         String startDate=input.nextLine();
         System.out.print("Type in the ending date [dd/mm/yyyy]: ");
         String endDate=input.nextLine();
-        printAllUnreturnCar(startDate,endDate);
+        printAllUnreturnCar(startDate,endDate,conn);
     }
 
-    public void returnCar_input()
+    public void returnCar_input(Connection conn)
     {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter The User ID: ");
@@ -220,10 +222,10 @@ public class Manager{// extends MainMenu{
         String callNum=input.nextLine();
         System.out.print("Enter The Copy Number: ");
         int copyNum=input.nextInt();
-        returnCar(userID,callNum,copyNum);
+        returnCar(userID,callNum,copyNum,conn);
     }
 
-    public void rentCar_input()
+    public void rentCar_input(Connection conn)
     {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter The User ID: ");
@@ -232,18 +234,18 @@ public class Manager{// extends MainMenu{
         String callNum=input.nextLine();
         System.out.print("Enter The Copy Number: ");
         int copyNum=input.nextInt();
-        rentCar(userID,callNum,copyNum);
+        rentCar(userID,callNum,copyNum,conn);
     }
 
     
     public void printMenu()
     {
-        System.out.print("-----Main Menu-----");
+        System.out.println("-----Main Menu-----");
         System.out.print("What kind of operatoin would you like to perform?\n1. Car Renting\n2. Car Returning\n3. List all un-returned car copies which are checked-out within a period\n4. Return to the main menu\n");
         System.out.print("Enter Your Choice: ");
     }
 
-    public void managerMainMenu()
+    public void managerMainMenu(Connection conn)
     {
         while(true)
         {
@@ -264,17 +266,17 @@ public class Manager{// extends MainMenu{
                 case 1 :
                 System.out.print("\033[H\033[2J");  
                 System.out.flush();
-                    rentCar_input();
+                    rentCar_input(conn);
                     break;
                 case 2 :
                     System.out.print("\033[H\033[2J");  
                     System.out.flush();
-                    returnCar_input();
+                    returnCar_input(conn);
                     break;
                 case 3 :
                     System.out.print("\033[H\033[2J");  
                     System.out.flush();
-                    unreturnCar_input();
+                    unreturnCar_input(conn);
                     break;
                 case 4 :
                     return;
