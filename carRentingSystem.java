@@ -2,7 +2,9 @@ package carrentingsystem;
 
 import java.util.Scanner;
 import java.sql.*;
-
+import java.util.InputMismatchException;
+import carrentingsystem.Admin;
+import carrentingsystem.Manager;
 
 public class carRentingSystem
 {
@@ -31,8 +33,9 @@ public class carRentingSystem
             System.out.println("4. Exit this program");
             System.out.print("Enter Your Choice: ");
             Scanner input = new Scanner(System.in);
+            int choice;
             try{
-                int choice=input.nextInt();
+                choice=input.nextInt();
             } catch (InputMismatchException e)
             {
                 System.out.println("Please input the integer within 1 to 4");

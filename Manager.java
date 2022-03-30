@@ -5,6 +5,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.sql.*;
+import java.util.InputMismatchException;
 
 // test
 public class Manager{// extends MainMenu{
@@ -244,11 +245,12 @@ public class Manager{// extends MainMenu{
         {
             printMenu();
             Scanner input= new Scanner(System.in);
+            int num;
             try{
-                int num = input.nextInt();
+                num = input.nextInt();
             } catch (InputMismatchException e)
             {
-                System.out.println("Please input the integer within 1 to 4";)
+                System.out.println("Please input the integer within 1 to 4");
                 continue;
             }
 
