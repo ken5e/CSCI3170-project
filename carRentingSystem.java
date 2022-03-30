@@ -3,6 +3,7 @@ package carrentingsystem;
 import java.util.Scanner;
 import java.sql.*;
 
+
 public class carRentingSystem
 {
     public static void main(String args[])
@@ -34,7 +35,7 @@ public class carRentingSystem
             case 1:
                 System.out.print("\033[H\033[2J");  
                 System.out.flush();
-                adminMainMenu(Con);
+                adminMainMenu(con);
                 break;
             case 2:
                 System.out.print("\033[H\033[2J");  

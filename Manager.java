@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.sql.*;
 
 // test
-public class Manager extends MainMenu{
+public class Manager{// extends MainMenu{
     
     // ---------------------------------Connection to the DBMS------------------------------------------
     final String  dbAddress = "jdbc:mysql://projgw.cse.cuhk.edu.hk:2633/db0";
