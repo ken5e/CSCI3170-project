@@ -1,14 +1,16 @@
+package carrentingsystem;
+
 import java.sql.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.lang.Integer;
+import java.util.InputMismatchException;
 
 
 
@@ -423,8 +425,14 @@ public class Admin {
         while(true)
         {
             printMenu();
+            int num = -1;
             Scanner input= new Scanner(System.in);
-            int num = input.nextInt();
+            try {
+                num = input.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Please input the integer within 1 to 5");
+                continue;
+            }
             Boolean output = true;
 
             switch(num)
