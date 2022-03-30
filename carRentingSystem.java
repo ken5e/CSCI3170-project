@@ -34,12 +34,12 @@ public class carRentingSystem
             case 1:
                 System.out.print("\033[H\033[2J");  
                 System.out.flush();
-
+                adminMainMenu(Con);
                 break;
             case 2:
                 System.out.print("\033[H\033[2J");  
                 System.out.flush();
-
+                managerMainMenu();
                 break;
             case 3:
                 System.out.print("\033[H\033[2J");  
