@@ -244,7 +244,15 @@ public class Manager{// extends MainMenu{
         {
             printMenu();
             Scanner input= new Scanner(System.in);
-            int num = input.nextInt();
+            try{
+                int num = input.nextInt();
+            } catch (InputMismatchException e)
+            {
+                System.out.println("Please input the integer within 1 to 4";)
+                continue;
+            }
+
+            
             switch(num)
             {
                 case 1 :

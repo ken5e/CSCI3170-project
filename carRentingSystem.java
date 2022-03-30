@@ -21,36 +21,46 @@ public class carRentingSystem
         }catch (SQLException e){
             System.out.println(e);
         }
-        System.out.println("Welcome to Car Renting System!\n");
-        System.out.println("What kind of operations would you like to perform?");
-        System.out.println("1. Operations for Administrator");
-        System.out.println("2. Operations for User");
-        System.out.println("3. Operations for Manager");
-        System.out.println("4. Exit this program");
-        System.out.print("Enter Your Choice: ");
-        Scanner input = new Scanner(System.in);
-        int choice=input.nextInt();
-        switch(choice)
+        while(true)
         {
-            case 1:
-                System.out.print("\033[H\033[2J");  
-                System.out.flush();
-                adminMainMenu(con);
-                break;
-            case 2:
-                System.out.print("\033[H\033[2J");  
-                System.out.flush();
-                managerMainMenu();
-                break;
-            case 3:
-                System.out.print("\033[H\033[2J");  
-                System.out.flush();
+            System.out.println("Welcome to Car Renting System!\n");
+            System.out.println("What kind of operations would you like to perform?");
+            System.out.println("1. Operations for Administrator");
+            System.out.println("2. Operations for User");
+            System.out.println("3. Operations for Manager");
+            System.out.println("4. Exit this program");
+            System.out.print("Enter Your Choice: ");
+            Scanner input = new Scanner(System.in);
+            try{
+                int choice=input.nextInt();
+            } catch (InputMismatchException e)
+            {
+                System.out.println("Please input the integer within 1 to 4");
+                continue;
+            }
+            
+            switch(choice)
+            {
+                case 1:
+                    System.out.print("\033[H\033[2J");  
+                    System.out.flush();
+                    adminMainMenu(con);
+                    break;
+                case 2:
+                    System.out.print("\033[H\033[2J");  
+                    System.out.flush();
+                    managerMainMenu();
+                    break;
+                case 3:
+                    System.out.print("\033[H\033[2J");  
+                    System.out.flush();
 
-                break;
-            case 4:
-                System.exit(0);
-            default:
-                System.out.println("Please input integer (1-4)");
+                    break;
+                case 4:
+                    System.exit(0);
+                default:
+                    System.out.println("Please input integer (1-4)");
+            }
         }
     }
 }
