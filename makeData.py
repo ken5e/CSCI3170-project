@@ -15,5 +15,5 @@ with open("./data/car_category.txt", "w") as f:
         f.write(f"{i}\tvan{i}\n")
 
 with open("./data/user.txt", "w") as f:
-    for i in range(5):
+    for i in range(1, 8):
         f.write(f"s123456789{i}{i}\tPaul{i}\t2{i}\tdriver{i}\t{i}\n")
