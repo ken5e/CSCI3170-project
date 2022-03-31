@@ -38,38 +38,39 @@ public class Manager{// extends MainMenu{
     public void printAllUnreturnCar(String startDate, String endDate,Connection conn)
     {
         try{
-            Date startDate_d = new SimpleDateFormat("dd/mm/yyyy").parse(startDate);
-            Date endDate_d = new  SimpleDateFormat("dd/mm/yyyy").parse(endDate);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-            String startDate_string = formatter.format(startDate_d);
-            String endDate_string = formatter.format(endDate_d);
-            java.sql.Date startDate_sql = java.sql.Date.valueOf(startDate_string);
-            java.sql.Date endDate_sql = java.sql.Date.valueOf(endDate_string);
-
-            String sql= "SELECT uid,callnum,copynum,checkout FROM rent WHERE checkout BETWEEN ? AND ?";
-            PreparedStatement pstmt=conn.prepareStatement(sql);
-            pstmt.setDate(1,startDate_sql);
-            pstmt.setDate(2,endDate_sql);
-        
-            ResultSet resultSet =pstmt.executeQuery(sql);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date startDate_d = formatter.parse(startDate);
+            java.util.Date endDate_d = formatter.parse(endDate);
+            String startDate_string=formatter2.format(formatter.parse(startDate));
+            String endDate_string=formatter2.format(formatter.parse(endDate));
+            PreparedStatement pstmt=conn.prepareStatement("SELECT uid,callnum,copynum,checkout FROM rent WHERE `return` is NULL AND checkout >=? AND checkout<=? ORDER BY checkout DESC");
+            pstmt.setDate(1,java.sql.Date.valueOf(startDate_string));
+            pstmt.setDate(2,java.sql.Date.valueOf(endDate_string));
+            ResultSet resultSet =pstmt.executeQuery();
             if(!pstmt.executeQuery().next())
             {
                 System.out.println("No records found.");
                 return;
             }
-            else
+            pstmt=conn.prepareStatement("SELECT uid,callnum,copynum,checkout FROM rent WHERE `return` is NULL AND checkout >=? AND checkout<=? ORDER BY checkout DESC");
+            pstmt.setDate(1,java.sql.Date.valueOf(startDate_string));
+            pstmt.setDate(2,java.sql.Date.valueOf(endDate_string));
+            resultSet =pstmt.executeQuery();
+            System.out.println("+--------------+----------+---------+------------+");
+            System.out.println("|          UID |  CallNum | CopyNum |   Checkout |");
+            System.out.println("+--------------+----------+---------+------------+");
+            while(resultSet.next())
             {
-                System.out.println("|UID|CallNum|CopyNum|Checkout|");
-                while(resultSet.next())
-                {
-                    System.out.print("|");
-                    System.out.print(resultSet.getString(1)+"|");
-                    System.out.print(resultSet.getString(2)+"|");
-                    System.out.print(resultSet.getInt(3)+"|");
-                    System.out.println(resultSet.getDate(4)+"|");
-                }
-                System.out.println("End of Query");
+                System.out.print("| ");
+                System.out.print(resultSet.getString(1)+" | ");
+                System.out.print(resultSet.getString(2)+" |       ");
+                System.out.print(resultSet.getInt(3)+" | ");
+                System.out.println(resultSet.getDate(4)+" |");
+                System.out.println("+--------------+----------+---------+------------+");
             }
+            System.out.println("End of Query");
+            
         }catch (SQLException e )
         {
             System.out.println(e);
@@ -111,7 +112,7 @@ public class Manager{// extends MainMenu{
                     System.out.println("[Error] This copy number does not exist. Please check the copy number.");
                     return;
                 }
-                
+
             // check whether this car is rented by user
                 pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND `return` IS NULL");
                 pstmt.setString(1,userID);
