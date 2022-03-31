@@ -85,7 +85,7 @@ public class Manager{// extends MainMenu{
     {
         try{
             // check whether the user is exist or not
-                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM User WHERE uid=?");
+                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM user WHERE uid=?");
                 pstmt.setString(1,userID);
                 if(!pstmt.executeQuery().next())
                 {
@@ -102,6 +102,16 @@ public class Manager{// extends MainMenu{
                     return;
                 }
 
+            // check whether the copynum is exist or not
+                pstmt=conn.prepareStatement("SELECT * FROM copy where callnum=? AND copynum=?");
+                pstmt.setString(1,callNum);
+                pstmt.setInt(2,copyNum);
+                if(!pstmt.executeQuery().next())
+                {
+                    System.out.println("[Error] This copy number does not exist. Please check the copy number.");
+                    return;
+                }
+                
             // check whether this car is rented by user
                 pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND `return` IS NULL");
                 pstmt.setString(1,userID);
@@ -125,7 +135,8 @@ public class Manager{// extends MainMenu{
                 System.out.println("Car returning performed successfully.");
         } catch (SQLException e)
         {
-            System.out.println("Car renting performed unsuccessfully.");
+            System.out.println(e);
+            System.out.println("Car returning performed unsuccessfully.");
         }
     }
     
@@ -174,11 +185,20 @@ public class Manager{// extends MainMenu{
                     return;
                 }
             
+            // check whether the copynum is exist or not
+                pstmt=conn.prepareStatement("SELECT * FROM copy where callnum=? AND copynum=?");
+                pstmt.setString(1,callNum);
+                pstmt.setInt(2,copyNum);
+                if(!pstmt.executeQuery().next())
+                {
+                    System.out.println("[Error] This copy number does not exist. Please check the copy number.");
+                    return;
+                }
             // check whether the car is rented or not
-                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND `return` IS NULL");
-                pstmt.setString(1,userID);
-                pstmt.setString(2,callNum);
-                pstmt.setInt(3,copyNum);
+                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE callnum=? AND copynum=? AND `return` IS NULL");
+                //pstmt.setString(1,userID);
+                pstmt.setString(1,callNum);
+                pstmt.setInt(2,copyNum);
                 if(pstmt.executeQuery().next())
                 {
                     System.out.println("[Error] This car has been rented.");
