@@ -103,7 +103,7 @@ public class Manager{// extends MainMenu{
                 }
 
             // check whether this car is rented by user
-                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND 'return' IS NULL");
+                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND `return` IS NULL");
                 pstmt.setString(1,userID);
                 pstmt.setString(2,callNum);
                 pstmt.setInt(3,copyNum);
@@ -116,7 +116,7 @@ public class Manager{// extends MainMenu{
             // update rent record
                 java.util.Date myDate = new java.util.Date();
                 java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-                pstmt=conn.prepareStatement("UPDATE rent SET return=? WHERE uid=? AND callnum=? AND copynum=? AND 'return' IS NULL");
+                pstmt=conn.prepareStatement("UPDATE rent SET `return`=? WHERE uid=? AND callnum=? AND copynum=? AND `return` IS NULL");
                 pstmt.setDate(1,sqlDate);
                 pstmt.setString(2,userID);
                 pstmt.setString(3,callNum);
@@ -152,7 +152,7 @@ public class Manager{// extends MainMenu{
                 {
                     max_num=resultSet.getInt(1);
                 }
-                pstmt=conn.prepareStatement("SELECT count(*) FROM rent WHERE uid=? AND 'return' IS NULL");
+                pstmt=conn.prepareStatement("SELECT count(*) FROM rent WHERE uid=? AND `return` IS NULL");
                 pstmt.setString(1,userID);
                 resultSet=pstmt.executeQuery();
                 if(resultSet.next())
@@ -175,7 +175,7 @@ public class Manager{// extends MainMenu{
                 }
             
             // check whether the car is rented or not
-                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND 'return' IS NULL");
+                pstmt=conn.prepareStatement("SELECT * FROM rent WHERE uid=? AND callnum=? AND copynum=? AND `return` IS NULL");
                 pstmt.setString(1,userID);
                 pstmt.setString(2,callNum);
                 pstmt.setInt(3,copyNum);
