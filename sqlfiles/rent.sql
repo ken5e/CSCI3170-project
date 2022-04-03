@@ -3,7 +3,7 @@ CREATE TABLE rent(
     callnum VARCHAR(8) NOT NULL,
     copynum INT NOT NULL,
     checkout DATE NOT NULL,
-    `return` DATE ,
+    return_date DATE ,
     PRIMARY KEY (uid, callnum, copynum, checkout),
     FOREIGN KEY (uid) REFERENCES user(uid),
     FOREIGN KEY (callnum) REFERENCES car(callnum)

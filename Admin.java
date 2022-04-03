@@ -347,7 +347,11 @@ public class Admin {
                     pstmt.setString(2, arrOfStr[0]);
                     pstmt.setInt(3, Integer.parseInt(arrOfStr[1]));
                     pstmt.setString(4, arrOfStr[3]);
-                    pstmt.setString(5, arrOfStr[4]);
+                    if (arrOfStr[4].equals("NULL")) {
+                        pstmt.setNull(5, java.sql.Types.CHAR);
+                    } else {
+                        pstmt.setString(5, arrOfStr[4]);
+                    }
 
                     try {
                         pstmt.executeUpdate();
