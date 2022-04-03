@@ -249,19 +249,26 @@ public class Admin {
                     pstmt.setInt(4, Integer.parseInt(arrOfStr[5]));
                     pstmt.setInt(5, Integer.parseInt(arrOfStr[6]));
 
-                    pstmt2.setString(1, arrOfStr[0]);
-                    pstmt2.setInt(2, Integer.parseInt(arrOfStr[1]));
 
                     pstmt3.setString(1, arrOfStr[3]);
                     pstmt3.setString(2, arrOfStr[0]);
 
                     try {
                         pstmt.executeUpdate();
-                        pstmt2.executeUpdate();
                         pstmt3.executeUpdate();
                     } catch (SQLException e) {
                         System.out.println(e);
                         output = false;
+                    }
+                    for (int j = 1; j <= Integer.parseInt(arrOfStr[1]); j++) {
+                        pstmt2.setString(1, arrOfStr[0]);
+                        pstmt2.setInt(2, j);
+                        try {
+                            pstmt2.executeUpdate();
+                        } catch (SQLException e) {
+                            System.out.println(e);
+                            output = false;
+                        }
                     }
                 }
             } catch (IOException e) {
