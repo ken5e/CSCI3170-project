@@ -52,7 +52,7 @@ public class carRentingSystem
                 case 2:
                     System.out.print("\033[H\033[2J");  
                     System.out.flush();
-                    User.adminMainMenu(con);
+                    User.UserMainMenu(con);
                     break;
                 case 3:
                     System.out.print("\033[H\033[2J");  
