@@ -160,6 +160,9 @@ public class User{
                         case 3:
                             carsearchbycomp(con,call_name_com);
                             break;
+                        default:
+                            System.out.print("Please input the integer within 1 to 3");
+                            break;
 
                     }
                     break;
@@ -170,6 +173,10 @@ public class User{
                     loanrecord(con,cuser);
                     break;
                 case 3:
+                    return;
+                default :
+                    System.out.print("Please input the integer within 1 to 3");
+                    break;
             }
 
         }
