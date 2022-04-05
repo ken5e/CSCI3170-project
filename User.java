@@ -148,7 +148,7 @@ public class User{
                     int num_1 = input2.nextInt();
                     System.out.print("Type in the Search Keyword:");
                     Scanner input3 = new Scanner(System.in);
-                    String call_name_com = input3.nextline();
+                    String call_name_com = input3.nextLine();
 
                     switch (num_1){
                         case 1:
@@ -166,9 +166,10 @@ public class User{
                 case 2:
                     System.out.print("Enter The cuser ID:");
                     Scanner input4 = new Scanner(System.in);
-                    String cuser = input4.nextline();
+                    String cuser = input4.nextLine();
                     loanrecord(con,cuser);
                     break;
+                case 3:
             }
 
         }
