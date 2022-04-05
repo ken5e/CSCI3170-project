@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.InputMismatchException;
 import carrentingsystem.Admin;
 import carrentingsystem.Manager;
-
+import carrentingsystem.User;
 public class carRentingSystem
 {
     public static void main(String args[])
@@ -52,6 +52,7 @@ public class carRentingSystem
                 case 2:
                     System.out.print("\033[H\033[2J");  
                     System.out.flush();
+                    User.adminMainMenu(con);
                     break;
                 case 3:
                     System.out.print("\033[H\033[2J");  
