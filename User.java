@@ -1,5 +1,3 @@
-package carrentingsystem;
-
 import java.sql.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -51,14 +49,6 @@ public class User{
                 while(rs.next()) {
                     int nava=rs.getInt("co.copynum"); //total copy number
                     System.out.print("|" + rs.getString(1)); //call_num
-                  //  if (rs.getString("c.null")==null){ //if return == NULL means that have not return yet, therefore need to - how many car was rented (r.copynum)
-                   //     nava=nava-rs.getInt(r.copynum);
-                    //    String name=rs.getString("c.name");
-                   //     String ccname=rs.getString("cc.ccname");
-                  //      String cname=rs.getString("p.cname");
-                 //       rs.next();
-                 //       if (Objects.equals(name, rs.getString("c.name"))){
-                //        }
                     System.out.print("|" + rs.getString("c.name"));//ccname
                     System.out.print("|" + rs.getString("cc.ccname")); //Car Cat
                     System.out.print("|" + rs.getString("p.cname") + "|"); // comp
@@ -120,7 +110,7 @@ public class User{
     }
     public static void loanrecord(Connection con, String cuser){
         System.out.println("Load Record:");
-        String psql = "SELECT DISTINCT * FROM rent r, car c, produc p WHERE r.uid= ? and r.callnum=c.callnum and c.callnum= p.callnum ";
+        String psql = "SELECT DISTINCT * FROM rent r, car c, produce p WHERE r.uid= ? and r.callnum=c.callnum and c.callnum= p.callnum ";
         try {
             PreparedStatement pstmt = con.prepareStatement(psql);
             pstmt.setString(1,cuser);
@@ -158,22 +148,27 @@ public class User{
                     int num_1 = input2.nextInt();
                     System.out.print("Type in the Search Keyword:");
                     Scanner input3 = new Scanner(System.in);
-                    String call_name_com = input3.next();
+                    String call_name_com = input3.nextline();
 
                     switch (num_1){
                         case 1:
                             carsearchbycall(con,call_name_com);
+                            break;
                         case 2:
                             carsearchbyname(con,call_name_com);
+                            break;
                         case 3:
                             carsearchbycomp(con,call_name_com);
+                            break;
+
                     }
+                    break;
                 case 2:
                     System.out.print("Enter The cuser ID:");
                     Scanner input4 = new Scanner(System.in);
-                    String cuser = input4.next();
+                    String cuser = input4.nextline();
                     loanrecord(con,cuser);
-
+                    break;
             }
 
         }
