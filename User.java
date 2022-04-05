@@ -123,7 +123,7 @@ public class User{
                 System.out.print( "|"+ rs.getString("r.copynum"));//copynum
                 System.out.print( "|"+ rs.getString("c.name")); //Car name
                 System.out.print( "|"+ rs.getString("r.checkout")+"|"); // Check-out
-                String Return=rs.getString("r.return");
+                String Return=rs.getString("r.return_date");
                 if (Return==null){
                     System.out.print("No");
                 }else{
