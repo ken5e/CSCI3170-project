@@ -44,6 +44,11 @@ public class Manager{// extends MainMenu{
             java.util.Date endDate_d = formatter.parse(endDate);
             String startDate_string=formatter2.format(formatter.parse(startDate));
             String endDate_string=formatter2.format(formatter.parse(endDate));
+            if (java.sql.Date.valueOf(endDate_string).compareTo(java.sql.Date.valueOf(startDate_string))<0)
+            {
+                System.out.println("Invalid Date input, please make sure the starting date is before end date.");
+                return;
+            }
             PreparedStatement pstmt=conn.prepareStatement("SELECT uid,callnum,copynum,checkout FROM rent WHERE return_date is NULL AND checkout >=? AND checkout<=? ORDER BY checkout DESC");
             pstmt.setDate(1,java.sql.Date.valueOf(startDate_string));
             pstmt.setDate(2,java.sql.Date.valueOf(endDate_string));
