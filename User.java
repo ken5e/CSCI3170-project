@@ -147,31 +147,35 @@ public class User{
             pstmt.setString(1,inp);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                String get_all="SELECT COUNT(*) FROM copy co ,produce p WHERE  co.callnum=p.callnum and p.cname =? ";
-                String used="SELECT COUNT(*)-COUNT(r.return_date) AS ava FROM rent r, produce p WHERE  r.callnum=p.callnum and p.cname = ?";
+                String get_all="SELECT COUNT(*) FROM copy co ,produce p WHERE  co.callnum=p.callnum and p.cname =? and p.callnum=?";
+                String used="SELECT COUNT(*)-COUNT(r.return_date) AS ava FROM rent r, produce p WHERE  r.callnum=p.callnum and p.cname = ? and p.callnum=?";
                 PreparedStatement pst_all = con.prepareStatement(get_all);
                 PreparedStatement pst_used = con.prepareStatement(used);
                 System.out.println("|Call Num|Name|Car Category|Company|Available No. of Copy|");
                 pst_all.setString(1,rs.getString("p.cname"));
                 pst_used.setString(1,rs.getString("p.cname"));
+                pst_all.setString(2,rs.getString("co.callnum"));
+                pst_used.setString(2,rs.getString("co.callnum"));
                 ResultSet rs_all = pst_all.executeQuery();
                 ResultSet rs_used = pst_used.executeQuery();
                 rs_all.next();
                 rs_used.next();
                 int ava=rs_all.getInt(1)-rs_used.getInt(1); //copy_copy-rent_copy
-                System.out.print("|" + rs.getString(1)); //call_num
+                System.out.print("|" + rs.getString("co.callnum")); //call_num
                 System.out.print("|" + rs.getString("c.name"));//ccname
                 System.out.print("|" + rs.getString("cc.ccname")); //Car Cat
                 System.out.print("|" + rs.getString("p.cname") + "|"); // comp
                 System.out.print(String.valueOf(ava));
                 System.out.println("|");
                 while(rs.next()) {
-                    String get_all2="SELECT COUNT(*) FROM copy co ,produce p WHERE  co.callnum=p.callnum and p.cname =? ";
-                    String used2="SELECT COUNT(*)-COUNT(r.return_date) AS ava FROM rent r, produce p WHERE  r.callnum=p.callnum and p.cname = ? ";
+                    String get_all2="SELECT COUNT(*) FROM copy co ,produce p WHERE  co.callnum=p.callnum and p.cname =? and p.callnum=?";
+                    String used2="SELECT COUNT(*)-COUNT(r.return_date) AS ava FROM rent r, produce p WHERE  r.callnum=p.callnum and p.cname = ? and p.callnum=?";
                     PreparedStatement pst_all2 = con.prepareStatement(get_all2);
                     PreparedStatement pst_used2 = con.prepareStatement(used2);
                     pst_all2.setString(1,rs.getString("p.cname"));
                     pst_used2.setString(1,rs.getString("p.cname"));
+                    pst_all2.setString(2,rs.getString("co.callnum"));
+                    pst_used2.setString(2,rs.getString("co.callnum"));
                     ResultSet rs_all2 = pst_all2.executeQuery();
                     ResultSet rs_used2 = pst_used2.executeQuery();
 
