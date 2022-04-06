@@ -194,7 +194,7 @@ public class User{
     }
     public static void loanrecord(Connection con, String cuser){
         System.out.println("Load Record:");
-        String psql = "SELECT DISTINCT * FROM rent r, car c, produce p WHERE r.uid= ? and r.callnum=c.callnum and c.callnum= p.callnum ";
+        String psql = "SELECT DISTINCT * FROM rent r, car c, produce p WHERE r.uid= ? and r.callnum=c.callnum and c.callnum= p.callnum ORDER BY r.return_date DESC";
         try {
             PreparedStatement pstmt = con.prepareStatement(psql);
             pstmt.setString(1,cuser);
@@ -239,14 +239,26 @@ public class User{
         while(true) {
             printMenu();
             Scanner input= new Scanner(System.in);
-            int num = input.nextInt();
+            int num = -1;
+            try {
+                num = input.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Please input the integer within 1 to 3");
+                continue;
+            }
             switch(num) {
                 case 1 :  // search for Cars
                     System.out.println("Choose the Search criterion:");
                     System.out.println("1.call number\n2.name\n3.company");
                     System.out.print("Choose the Search criterion:");
                     Scanner input2 = new Scanner(System.in);
-                    int num_1 = input2.nextInt();
+                    int num_1 = -1
+                    try {
+                        num = input2.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Please input the integer within 1 to 3");
+                        continue;
+                    }
 
 
                     switch (num_1){
