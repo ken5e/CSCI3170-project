@@ -281,7 +281,7 @@ public class User{
                             carsearchbycomp(con,com);
                             break;
                         default:
-                            System.out.print("Please input the integer within 1 to 3");
+                            System.out.println("Please input the integer within 1 to 3");
                             break;
                     }
                     break;
@@ -294,7 +294,7 @@ public class User{
                 case 3:
                     return;
                 default :
-                    System.out.print("Please input the integer within 1 to 3");
+                    System.out.println("Please input the integer within 1 to 3");
                     break;
             }
 
