@@ -39,7 +39,7 @@ public class User{
     }
     public static void carsearchbycall(Connection con, String call_num){
         System.out.println("Number of records in each table:");
-        String psql = "SELECT DISTINCT co.callnum, c.name, cc.ccname,p.cname FROM copy co ,car c , car_category cc ,produce p WHERE c.callnum= co.callnum and c.callnum=? and c.ccid=cc.ccid and co.callnum=p.callnum ";
+        String psql = "SELECT DISTINCT co.callnum, c.name, cc.ccname,p.cname FROM copy co ,car c , car_category cc ,produce p WHERE c.callnum= co.callnum and c.callnum=? and c.ccid=cc.ccid and co.callnum=p.callnum ORDER BY p.callnum";
         String get_all="SELECT COUNT(*) FROM copy co WHERE  co.callnum=?  ";
         String used="SELECT COUNT(*)-COUNT(r.return_date) AS ava FROM rent r WHERE  r.callnum=?  ";
         try {
@@ -84,7 +84,7 @@ public class User{
     }
     public static void carsearchbyname(Connection con, String name){
         System.out.println("Number of records in each table:");
-        String psql = "SELECT DISTINCT co.callnum, c.name, cc.ccname,p.cname FROM copy co ,car c , car_category cc ,produce p WHERE c.name like ? and c.callnum= co.callnum and c.ccid=cc.ccid and co.callnum=p.callnum ";
+        String psql = "SELECT DISTINCT co.callnum, c.name, cc.ccname,p.cname FROM copy co ,car c , car_category cc ,produce p WHERE c.name like ? and c.callnum= co.callnum and c.ccid=cc.ccid and co.callnum=p.callnum ORDER BY p.callnum";
 
         try {
             PreparedStatement pstmt = con.prepareStatement(psql);
@@ -139,7 +139,7 @@ public class User{
     }
     public static void carsearchbycomp(Connection con, String comp){
         System.out.println("Number of records in each table:");
-        String psql = "SELECT DISTINCT co.callnum, c.name, cc.ccname,p.cname FROM copy co ,car c , car_category cc ,produce p WHERE p.cname like ? and c.callnum= co.callnum and c.ccid=cc.ccid and co.callnum=p.callnum ";
+        String psql = "SELECT DISTINCT co.callnum, c.name, cc.ccname,p.cname FROM copy co ,car c , car_category cc ,produce p WHERE p.cname like ? and c.callnum= co.callnum and c.ccid=cc.ccid and co.callnum=p.callnum ORDER BY p.callnum";
 
         try {
             PreparedStatement pstmt = con.prepareStatement(psql);
@@ -167,7 +167,7 @@ public class User{
                 System.out.println("|");
                 while(rs.next()) {
                     String get_all2="SELECT COUNT(*) FROM copy co ,produce p WHERE  co.callnum=p.callnum and p.cname =? ";
-                    String used2="SELECT COUNT(*)-COUNT(r.return_date) AS ava FROM rent r, produce p WHERE  r.callnum=p.callnum and p.cname = ?";
+                    String used2="SELECT COUNT(*)-COUNT(r.return_date) AS ava FROM rent r, produce p WHERE  r.callnum=p.callnum and p.cname = ? ";
                     PreparedStatement pst_all2 = con.prepareStatement(get_all2);
                     PreparedStatement pst_used2 = con.prepareStatement(used2);
                     pst_all2.setString(1,rs.getString("p.cname"));
@@ -194,7 +194,7 @@ public class User{
     }
     public static void loanrecord(Connection con, String cuser){
         System.out.println("Load Record:");
-        String psql = "SELECT DISTINCT * FROM rent r, car c, produce p WHERE r.uid= ? and r.callnum=c.callnum and c.callnum= p.callnum ORDER BY r.return_date DESC";
+        String psql = "SELECT DISTINCT * FROM rent r, car c, produce p WHERE r.uid= ? and r.callnum=c.callnum and c.callnum= p.callnum ORDER BY r.checkout DESC";
         try {
             PreparedStatement pstmt = con.prepareStatement(psql);
             pstmt.setString(1,cuser);
