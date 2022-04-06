@@ -353,13 +353,18 @@ public class Admin {
                     pstmt.setString(1, arrOfStr[2]);
                     pstmt.setString(2, arrOfStr[0]);
                     pstmt.setInt(3, Integer.parseInt(arrOfStr[1]));
-                    pstmt.setString(4, arrOfStr[3]);
-                    if (arrOfStr[4].equals("NULL")) {
-                        pstmt.setNull(5, java.sql.Types.CHAR);
-                    } else {
-                        pstmt.setString(5, arrOfStr[4]);
+                    try{
+                        pstmt.setDate(4, java.sql.Date.valueOf(arrOfStr[3]));
+                        if (arrOfStr[4].equals("NULL")) {
+                            pstmt.setNull(5, java.sql.Types.CHAR);
+                        } else {
+                            pstmt.setDate(5, java.sql.Date.valueOf(arrOfStr[4]));
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e);
+                        output = false;
+                        continue;
                     }
-
                     try {
                         pstmt.executeUpdate();
                     } catch (SQLException e) {
