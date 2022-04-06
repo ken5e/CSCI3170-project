@@ -252,9 +252,9 @@ public class User{
                     System.out.println("1.call number\n2.name\n3.company");
                     System.out.print("Choose the Search criterion:");
                     Scanner input2 = new Scanner(System.in);
-                    int num_1 = -1
+                    int num_1 = -1;
                     try {
-                        num = input2.nextInt();
+                        num_1 = input2.nextInt();
                     } catch (InputMismatchException e) {
                         System.out.println("Please input the integer within 1 to 3");
                         continue;
