@@ -1,8 +1,8 @@
 # CSCI3170-project
-Group number: 0
+Group number: 0 <br/>
 Name and student id: Ng Kin Wang 1155126580, Yiu Chi Ho 1155125810, Wong Lap Yin 1155147798
 
-Instruction:
+Instruction:<br/>
 run the following commands to compile the java files in the cse linux server:
 ````
 javac -d . Admin.java User.java Manager.java carRentingSystem.java
